@@ -1,9 +1,67 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
+const User = require("../../models/User");
+const gravatar = require("gravatar");
+const bcrypt = require("bcrypt");
 
-// @route    GET api/users
-// @desc     Test Route
+// @route    Post api/users
+// @desc     Register User Route
 // @access   Public
-router.get("/", (req, res) => res.send("users route"));
+router.post(
+  "/",
+  // form validation
+  [
+    check("name", "Name is required").not().isEmpty(),
+    check("email", "Please include a valid email").isEmail(),
+    check(
+      "password",
+      "Please Enter a password with 5 or more characters"
+    ).isLength({
+      min: 5,
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, password } = req.body;
+
+    try {
+      //Check if the user exist
+      let user = await User.findOne({ email });
+      if (user) {
+        res.status(400).json({ errors: [{ msg: "User already exists" }] });
+      }
+
+      const avatar = gravatar.url(email, {
+        s: "200",
+        r: "pg",
+        d: "mm",
+      });
+
+      user = new User({
+        name,
+        email,
+        avatar,
+        password,
+      });
+
+      //Encrypt Password
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+
+      //save the user to DB
+      await user.save();
+
+      res.send("users registered");
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
 
 module.exports = router;

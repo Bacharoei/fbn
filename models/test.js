@@ -1,16 +1,7 @@
 const mongoose = require("mongoose");
 
-const ProfileSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
-  company: {
-    type: String,
-  },
-  website: {
-    type: String,
-  },
+const TestSchema = new mongoose.Schema({
+
   location: {
     type: String,
   },
@@ -60,21 +51,21 @@ const ProfileSchema = new mongoose.Schema({
   ],
   education: [
     {
-      title: {
+      school: {
         type: String,
-        // required: true,
+        required: true,
       },
-      description: {
+      degree: {
         type: String,
-        // required: true,
+        required: true,
       },
       fieldofstudy: {
         type: String,
-        // required: true,
+        required: true,
       },
       from: {
         type: Date,
-        // required: true,
+        required: true,
       },
       to: {
         type: Date,
@@ -108,4 +99,4 @@ const ProfileSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("profile", ProfileSchema);
+module.exports = mongoose.model("test", TestSchema);

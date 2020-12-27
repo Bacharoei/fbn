@@ -1,14 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import img from '../../img/discountLogo.png';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Landing = () => {
+
+
+const Landing = ({ isAuthenticated }) => {
+  if(isAuthenticated) { 
+   return <Redirect to='/dash' />
+  }
     return (
         <section className="landing">
+          
         <div className="dark-overlay">
           <div className="landing-inner">
-            <h1 className="x-large">IDB DevConnector Portal</h1>
+          <img className="logo-img" src={img} alt="/" />
+            <h1 className="x-large ">
+            <i className="fas fa-laptop-code text-primary" alt=""></i> IDB Developers Portal
+              </h1>
             <p className="lead">
-              weolcome to IDB DevConnector Portal 
+              weolcome to IDB Developrs Portal 
             </p>
             <p className="lead">
             share posts and get help from other developers
@@ -23,4 +35,13 @@ const Landing = () => {
     )
 }
 
-export default Landing
+Landing.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+}  
+
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Landing)

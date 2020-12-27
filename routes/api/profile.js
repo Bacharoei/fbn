@@ -138,11 +138,14 @@ router.get("/user/:user_id", async (req, res) => {
 // @access   Private
 router.delete("/", auth, async (req, res) => {
   try {
+
+    //Remove user post 
+    // await Post.deleteMany({ user: req.user.id })
+
     //Remove Proifle
     await Profile.findOneAndRemove({ user: req.user.id });
-
     //Remove user
-    await Profile.findOneAndRemove({ _id: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
 
     res.json({ msg: "User deleted" });
   } catch (err) {
@@ -227,14 +230,14 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
 // @access   Private
 
 router.put(
-  "/education/",
+  "/education",
   [
     auth,
     [
-      check("school", "school is required").not().isEmpty(),
-      check("degree", "degree is required").not().isEmpty(),
-      check("fieldofstudy", "Field of study date is required").not().isEmpty(),
-      check("from", "from is required").not().isEmpty(),
+      check("title", "Department is required").not().isEmpty(),
+      check("description", "description is required").not().isEmpty(),
+      check("from", "from date is required").not().isEmpty(),
+    
     ],
   ],
   async (req, res) => {
@@ -244,23 +247,22 @@ router.put(
     }
 
     const {
-      school,
-      degree,
+      title,
+      description,
       fieldofstudy,
       from,
       to,
       current,
-      description,
+      
     } = req.body;
 
     const newEdu = {
-      school,
-      degree,
+      title,
+      description,
       fieldofstudy,
       from,
       to,
       current,
-      description,
     };
 
     try {
@@ -270,10 +272,13 @@ router.put(
       await profile.save();
       res.json(profile);
     } catch (err) {
-      res.status(500).send("Server Error");
+      res.status(500).send(err);
     }
   }
 );
+
+
+
 
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete profile education
@@ -293,5 +298,10 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+
+
+
+
 
 module.exports = router;

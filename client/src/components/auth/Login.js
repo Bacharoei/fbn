@@ -1,37 +1,91 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const Login = () => {
+
+const Login = ({ login, isAuthenticated}) => {
+    const [formData, setFormData] = useState({ 
+        email: '',
+        password: '',
+    });
+
+    const { email, password } = formData;
+
+    const onChange = e => 
+        setFormData({...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = async e => {
+        e.preventDefault();
+        login({ email, password });     
+    };
+
+    // Redirerct if logged in
+    if(isAuthenticated  ) {
+        return <Redirect to="/profiles"  />
+    }
+
+
     return (
-        <section class="container">
-        <div class="alert alert-danger">
-          Invalid credentials
-        </div>
-        <h1 class="large text-primary">Sign In</h1>
-        <p class="lead"><i class="fas fa-user"></i> Sign into Your Account</p>
-        <form class="form" action="dashboard.html">
-          <div class="form-group">
-            <input
-              type="email"
-              placeholder="Email Address"
-              name="email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-            />
-          </div>
-          <input type="submit" class="btn btn-primary" value="Login" />
-        </form>
-        <p class="my-1">
-          Don't have an account? <Link to="/register">Sign Up</Link>
-        </p>
-      </section>
+        <>
+                <section className="container"> 
+                <h1 className="large text-primary">
+                    <i className="fas fa-user" /> 
+                    {' '} Sign In
+                </h1>
+                <p className="lead">
+                    sign into your account
+                </p>
+                <form className="form" onSubmit={e => onSubmit(e)}>
+                    <div className="form-group">
+                        <input 
+                        type="email" 
+                        placeholder="Email Address" 
+                        name="email"
+                        value={email}
+                        onChange={e => onChange(e)}
+                        required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={e => onChange(e)}
+                            minLength="5"
+                            required
+                        />
+                    </div>
+
+                    <input type="submit" className="btn btn-primary" value="Login" />
+                </form>
+
+                <p className="my-1 lead">
+                    Don't have an account? 
+                    <Link to="/register"> Register</Link>
+                </p>
+  
+                </section>
+
+
+
+    </>
+
     )
+   
 }
 
-export default Login
+Login.prototype = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

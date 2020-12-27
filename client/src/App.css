@@ -1,6 +1,7 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
+  --primary-color: #3a880f;
+  --secondary-color: #f2f2f2; 
   --dark-color: #343a40;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -19,6 +20,11 @@ body {
   line-height: 1.6;
   background-color: #fff;
   color: #333;
+}
+
+.logo-img{
+  width: 150px;
+
 }
 
 a {
@@ -54,12 +60,14 @@ img {
 .large {
   font-size: 3rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  /* margin-bottom: -1rem; */
 }
 
 .lead {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  text-transform: capitalize;
+
 }
 
 .text-center {
@@ -68,6 +76,8 @@ img {
 
 .text-primary {
   color: var(--primary-color);
+  text-transform: capitalize;
+
 }
 
 .text-dark {
@@ -151,6 +161,9 @@ img {
 .alert {
   padding: 0.8rem;
   margin: 1rem 0;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
@@ -185,7 +198,9 @@ img {
 .badge-danger,
 .alert-danger {
   background: var(--danger-color);
-  color: #fff;
+  color: #ffffff;
+  border-color: #ebccd1;
+
 }
 
 .btn-success,
@@ -235,8 +250,17 @@ img {
 }
 
 /* Forms */
+
+
+
+
 .form .form-group {
   margin: 1.2rem 0;
+}
+
+.form-group-login {
+  margin: 1.2rem 0;
+  padding: 0rem 5rem 0rem 5rem;
 }
 
 .form .form-text {
@@ -309,7 +333,7 @@ button {
   width: 100%;
   top: 0;
   border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .navbar ul {
@@ -324,16 +348,50 @@ button {
 
 .navbar a:hover {
   color: var(--primary-color);
+  text-decoration: none;
 }
 
 .navbar .welcome span {
   margin-right: 0.6rem;
 }
 
+/* Login Page */
+
+.login {
+  position: relative;
+  background: url('./img/login.jpg') no-repeat center center/cover;
+  height: 100vh;
+
+}
+
+.login-header {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  display: flex;
+}
+
+
+
+.login-inner {
+  color: var(--light-color);
+  height: 50%;
+  width: 50%;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  background-color:rgb(242, 242, 242, 0.1);
+  border-radius: 10px;
+}
+
+
+
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  background: url('./img/dev.jpeg') no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -358,6 +416,7 @@ button {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+  
 }
 
 /* Profile Page */
@@ -507,9 +566,7 @@ button {
     font-size: 2rem;
   }
 
-  .lead {
-    font-size: 1rem;
-  }
+
 
   /* Navbar */
   .navbar {
@@ -575,3 +632,6 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+
+

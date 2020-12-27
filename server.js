@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 const app = express();
 
@@ -8,6 +9,7 @@ connectDB();
 
 //Init Middleware
 app.use(express.json({ extended: false }));
+
 
 app.get("/", (req, res) => res.send("API running"));
 
@@ -25,3 +27,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`server started on port http://localhost:${PORT}`)
 );
+
+
